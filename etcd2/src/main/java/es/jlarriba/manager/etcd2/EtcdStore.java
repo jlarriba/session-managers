@@ -31,6 +31,7 @@ import org.apache.catalina.Valve;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 import java.util.logging.Level;
@@ -235,7 +236,7 @@ public final class EtcdStore extends AbstractLifecycle implements EtcdStoreManag
                 Response response = client.get(getKey(id));
                 if (response != null && response.successful()) {
                     try {
-                        return EtcdStore.this.sessionSerializationUtils.deserialize(response.node().getValue().getBytes());
+                        return EtcdStore.this.sessionSerializationUtils.deserialize(Base64.getDecoder().decode(response.node().getValue()));
                     } catch (ClassNotFoundException | IOException e) {
                         EtcdStore.this.logger.log(SEVERE, String.format("Unable to load session %s. Empty session created.", id), e);
                         return EtcdStore.this.manager.createSession(id);
@@ -279,7 +280,7 @@ public final class EtcdStore extends AbstractLifecycle implements EtcdStoreManag
                 final String id = session.getId();
                 
                 try {
-                    Response response = client.set(getKey(id), new String(EtcdStore.this.sessionSerializationUtils.serialize(session)));
+                    Response response = client.set(getKey(id), Base64.getEncoder().encodeToString(EtcdStore.this.sessionSerializationUtils.serialize(session)));
                     if (response == null || response.wasError()) {
                         EtcdStore.this.logger.log(SEVERE, String.format("Unable to save session %s", id));
                     }
