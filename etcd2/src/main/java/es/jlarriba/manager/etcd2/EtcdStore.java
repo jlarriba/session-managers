@@ -16,12 +16,10 @@
 package es.jlarriba.manager.etcd2;
 
 import com.gopivotal.manager.AbstractLifecycle;
-import com.gopivotal.manager.JmxSupport;
 import com.gopivotal.manager.LockTemplate;
 import com.gopivotal.manager.PropertyChangeSupport;
 import com.gopivotal.manager.SessionFlushValve;
 import com.gopivotal.manager.SessionSerializationUtils;
-import com.gopivotal.manager.StandardJmxSupport;
 import com.gopivotal.manager.StandardPropertyChangeSupport;
 import org.apache.catalina.Manager;
 import org.apache.catalina.Session;
@@ -33,19 +31,16 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Base64;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.util.logging.Level.SEVERE;
-import org.apache.catalina.session.StandardSession;
 import org.boon.etcd.ClientBuilder;
 import org.boon.etcd.Etcd;
 import org.boon.etcd.Node;
 import org.boon.etcd.Response;
 
 /**
- * An implementation of {@link Store} that persists data to Redis
+ * An implementation of {@link Store} that persists data to Etcd2
  */
 public final class EtcdStore extends AbstractLifecycle implements EtcdStoreManagement, Store {
 
