@@ -50,7 +50,6 @@ import org.boon.etcd.Response;
 public final class EtcdStore extends AbstractLifecycle implements EtcdStoreManagement, Store {
 
     private static final String SESSIONS_KEY = "sessions";
-    private final JmxSupport jmxSupport;
     private final LockTemplate lockTemplate = new LockTemplate();
     private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final PropertyChangeSupport propertyChangeSupport;
@@ -68,14 +67,12 @@ public final class EtcdStore extends AbstractLifecycle implements EtcdStoreManag
      */
     public EtcdStore() {
         this.logger.info(String.format("Sessions will be persisted to ETCD using a %s", this.getClass().getName()));
-        this.jmxSupport = new StandardJmxSupport();
         this.propertyChangeSupport = new StandardPropertyChangeSupport(this);
     }
 
-    EtcdStore(Etcd client, JmxSupport jmxSupport, PropertyChangeSupport propertyChangeSupport,
+    EtcdStore(Etcd client, PropertyChangeSupport propertyChangeSupport,
             SessionSerializationUtils sessionSerializationUtils) {
         this.client = client;
-        this.jmxSupport = jmxSupport;
         this.propertyChangeSupport = propertyChangeSupport;
         this.sessionSerializationUtils = sessionSerializationUtils;
     }
