@@ -24,12 +24,13 @@
 
     <groupId>com.gopivotal.manager</groupId>
     <artifactId>session-managers</artifactId>
-    <version>1.2.0.RELEASE</version>
+    <version>1.2.0.TOMCAT7-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>common</module>
         <module>redis-store</module>
+        <module>etcd2</module>
     </modules>
 
     <properties>
